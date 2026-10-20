@@ -1,0 +1,6 @@
+# azure-iot-device 2.14 requires paho-mqtt 1.x. Paho 2.x cannot be installed beside it.
+paho-mqtt>=1.6.1,<2
+azure-iot-device>=2.14.0,<3
+flask>=3.0.0
+pytest>=8.0.0
+python-dotenv>=1.0.0

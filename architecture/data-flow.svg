@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1100" height="620" fill="#f4f7fb"/>
+  <text x="40" y="42" font-size="22" font-weight="700" fill="#102033">EDGEWATCH data flow</text>
+  <text x="40" y="66" font-size="13" fill="#4d6278">Native JSON stays on MQTT. The dashboard and Azure path use one normalized schema.</text>
+
+  <rect x="36" y="96" width="300" height="150" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+  <text x="52" y="122" font-size="13" font-weight="700" fill="#102033">devices/contiki-01/telemetry</text>
+  <text x="52" y="150" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">{ "node_id", "temp_c",</text>
+  <text x="52" y="170" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">  "battery_mv" }</text>
+  <text x="52" y="200" font-size="12" fill="#4d6278">Source format: contiki_native</text>
+  <text x="52" y="220" font-size="12" fill="#4d6278">Type: temperature_sensor</text>
+
+  <rect x="36" y="262" width="300" height="150" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+  <text x="52" y="288" font-size="13" font-weight="700" fill="#102033">devices/freertos-01/telemetry</text>
+  <text x="52" y="316" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">{ "deviceId", "sensor",</text>
+  <text x="52" y="336" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">  "value", "unit" }</text>
+  <text x="52" y="366" font-size="12" fill="#4d6278">Source format: freertos_native</text>
+  <text x="52" y="386" font-size="12" fill="#4d6278">Type: humidity_sensor</text>
+
+  <rect x="36" y="428" width="300" height="150" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+  <text x="52" y="454" font-size="13" font-weight="700" fill="#102033">devices/airquality-01/telemetry</text>
+  <text x="52" y="482" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">{ "sensorId", "pm25",</text>
+  <text x="52" y="502" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">  "pm10" }</text>
+  <text x="52" y="532" font-size="12" fill="#4d6278">Source format: airquality_native</text>
+  <text x="52" y="552" font-size="12" fill="#4d6278">Type: air_quality_sensor</text>
+
+  <path d="M336 171 H400" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M336 337 H400" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M336 503 H400" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="400" y="250" width="160" height="120" rx="10" fill="#102033"/>
+  <text x="480" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#e8eef8">Gateway</text>
+  <text x="480" y="316" text-anchor="middle" font-size="12" fill="#b7c7dc">validate fields</text>
+  <text x="480" y="336" text-anchor="middle" font-size="12" fill="#b7c7dc">map names</text>
+  <text x="480" y="356" text-anchor="middle" font-size="12" fill="#5ce7ff">add UTC timestamp</text>
+
+  <path d="M560 310 H620" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="620" y="150" width="440" height="250" rx="10" fill="#e8f7ff" stroke="#2f6fed"/>
+  <text x="640" y="180" font-size="14" font-weight="700" fill="#102033">Common schema for every device</text>
+  <text x="640" y="210" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">device_id</text>
+  <text x="640" y="232" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">device_type</text>
+  <text x="640" y="254" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">timestamp</text>
+  <text x="640" y="276" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">readings { ...device-specific numbers }</text>
+  <text x="640" y="298" font-size="13" font-family="Consolas, monospace" fill="#1d4e89">metadata.source_format</text>
+  <text x="640" y="332" font-size="12" fill="#4d6278">Invalid JSON and missing fields are counted</text>
+  <text x="640" y="352" font-size="12" fill="#4d6278">and are not forwarded.</text>
+  <text x="640" y="378" font-size="12" fill="#4d6278">A new reading key is displayed generically.</text>
+
+  <path d="M760 400 V450" stroke="#2f6fed" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M980 400 V450" stroke="#d08900" stroke-width="2" marker-end="url(#arrow-amber)"/>
+
+  <rect x="620" y="458" width="220" height="90" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+  <text x="730" y="492" text-anchor="middle" font-size="14" font-weight="700" fill="#102033">Dashboard state</text>
+  <text x="730" y="514" text-anchor="middle" font-size="12" fill="#4d6278">cards, chart, table, activity</text>
+  <text x="730" y="532" text-anchor="middle" font-size="12" fill="#4d6278">local file + memory only</text>
+
+  <rect x="870" y="458" width="190" height="90" rx="10" fill="#fff8eb" stroke="#d08900"/>
+  <text x="965" y="492" text-anchor="middle" font-size="14" font-weight="700" fill="#102033">IoT Hub telemetry</text>
+  <text x="965" y="514" text-anchor="middle" font-size="12" fill="#4d6278">same normalized JSON</text>
+  <text x="965" y="532" text-anchor="middle" font-size="12" fill="#4d6278">sensor id stays inside</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#2f6fed"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#d08900"/>
+    </marker>
+  </defs>
+</svg>

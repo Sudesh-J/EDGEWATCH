@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1100" height="560" fill="#f4f7fb"/>
+  <text x="40" y="42" font-size="22" font-weight="700" fill="#102033">EDGEWATCH architecture</text>
+  <text x="40" y="66" font-size="13" fill="#4d6278">Local MQTT monitoring. The dashboard does not read telemetry from Azure.</text>
+
+  <g>
+    <rect x="40" y="100" width="200" height="78" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+    <text x="140" y="132" text-anchor="middle" font-size="14" font-weight="700" fill="#102033">Contiki-style sim</text>
+    <text x="140" y="154" text-anchor="middle" font-size="12" fill="#4d6278">Python · temp + battery</text>
+  </g>
+  <g>
+    <rect x="40" y="196" width="200" height="78" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+    <text x="140" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#102033">FreeRTOS-style sim</text>
+    <text x="140" y="250" text-anchor="middle" font-size="12" fill="#4d6278">Python · humidity</text>
+  </g>
+  <g>
+    <rect x="40" y="292" width="200" height="78" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+    <text x="140" y="324" text-anchor="middle" font-size="14" font-weight="700" fill="#102033">Air-quality sim</text>
+    <text x="140" y="346" text-anchor="middle" font-size="12" fill="#4d6278">Python · PM2.5 + PM10</text>
+  </g>
+  <text x="40" y="400" font-size="12" fill="#4d6278">These are simulations. Contiki-NG,</text>
+  <text x="40" y="418" font-size="12" fill="#4d6278">FreeRTOS, TinyOS, and RIOT are not running.</text>
+
+  <path d="M240 139 H300" stroke="#2f6fed" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M240 235 H300" stroke="#2f6fed" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M240 331 H300" stroke="#2f6fed" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="300" y="168" width="210" height="110" rx="10" fill="#e8f7ff" stroke="#2f6fed"/>
+  <text x="405" y="206" text-anchor="middle" font-size="15" font-weight="700" fill="#102033">Mosquitto</text>
+  <text x="405" y="228" text-anchor="middle" font-size="12" fill="#4d6278">127.0.0.1:1883</text>
+  <text x="405" y="248" text-anchor="middle" font-size="12" fill="#4d6278">devices/+/telemetry · QoS 1</text>
+
+  <path d="M510 223 H570" stroke="#2f6fed" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="570" y="120" width="230" height="206" rx="10" fill="#102033"/>
+  <text x="685" y="156" text-anchor="middle" font-size="15" font-weight="700" fill="#e8eef8">Python edge gateway</text>
+  <text x="685" y="182" text-anchor="middle" font-size="12" fill="#b7c7dc">1. Parse and validate</text>
+  <text x="685" y="202" text-anchor="middle" font-size="12" fill="#b7c7dc">2. Normalize to one schema</text>
+  <text x="685" y="222" text-anchor="middle" font-size="12" fill="#b7c7dc">3. Update local state</text>
+  <text x="685" y="242" text-anchor="middle" font-size="12" fill="#b7c7dc">4. Forward a copy</text>
+  <text x="685" y="268" text-anchor="middle" font-size="12" fill="#5ce7ff">Rolling 5-reading average</text>
+  <text x="685" y="292" text-anchor="middle" font-size="12" fill="#b7c7dc">data/live_state.json</text>
+
+  <path d="M685 326 V360" stroke="#2f6fed" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M800 223 H860" stroke="#d08900" stroke-width="2" fill="none" marker-end="url(#arrow-amber)"/>
+
+  <rect x="560" y="368" width="250" height="92" rx="10" fill="#ffffff" stroke="#9fb4c9"/>
+  <text x="685" y="402" text-anchor="middle" font-size="15" font-weight="700" fill="#102033">Flask dashboard</text>
+  <text x="685" y="424" text-anchor="middle" font-size="12" fill="#4d6278">GET /api/state every 2.5s</text>
+  <text x="685" y="444" text-anchor="middle" font-size="12" fill="#4d6278">HTML, CSS, vanilla JS, Chart.js</text>
+
+  <rect x="860" y="168" width="200" height="110" rx="10" fill="#fff8eb" stroke="#d08900"/>
+  <text x="960" y="206" text-anchor="middle" font-size="15" font-weight="700" fill="#102033">Azure IoT Hub</text>
+  <text x="960" y="228" text-anchor="middle" font-size="12" fill="#4d6278">Device identity</text>
+  <text x="960" y="248" text-anchor="middle" font-size="12" fill="#4d6278">edge-gateway-01</text>
+
+  <text x="860" y="310" font-size="12" fill="#8a5a00">SDK send is not proof of delivery.</text>
+  <text x="860" y="328" font-size="12" fill="#8a5a00">Confirm in IoT Hub tools.</text>
+  <text x="560" y="490" font-size="12" fill="#4d6278">Mock mode skips the cloud path and labels those sends as local only.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#2f6fed"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#d08900"/>
+    </marker>
+  </defs>
+</svg>

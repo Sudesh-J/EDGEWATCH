@@ -1,0 +1,1 @@
+"""EDGEWATCH Flask dashboard."""

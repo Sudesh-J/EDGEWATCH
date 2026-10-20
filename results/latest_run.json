@@ -1,0 +1,87 @@
+{
+  "in_process": {
+    "description": "Direct function calls. No MQTT broker and no Azure IoT Hub.",
+    "messages_handled": 5,
+    "invalid_messages": 2,
+    "normalized": 3,
+    "mock_success": 3,
+    "mock_failed_in_separate_check": 1,
+    "compact_payload_bytes": {
+      "contiki-01": 198,
+      "freertos-01": 182,
+      "airquality-01": 201
+    },
+    "processing_ms": [
+      0.05,
+      0.019,
+      0.013
+    ],
+    "forward_ms": [
+      0.005,
+      0.002,
+      0.001
+    ],
+    "avg_processing_ms": 0.027,
+    "avg_forward_ms": 0.002
+  },
+  "mqtt_integration": {
+    "skipped": false,
+    "azure_mode_forced": "mock",
+    "messages_requested_from_simulators": 9,
+    "invalid_messages_published": 2,
+    "device_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "counters": {
+      "received": 11,
+      "invalid": 2,
+      "normalized": 9,
+      "azure_success": 9,
+      "azure_failed": 0
+    },
+    "latency": {
+      "avg_processing_ms": 0.05,
+      "avg_forward_ms": 0.004,
+      "last_processing_ms": 0.033,
+      "last_forward_ms": 0.002,
+      "processing_samples_ms": [
+        0.076,
+        0.038,
+        0.034,
+        0.098,
+        0.033,
+        0.043,
+        0.057,
+        0.035,
+        0.033
+      ],
+      "forward_samples_ms": [
+        0.006,
+        0.005,
+        0.004,
+        0.003,
+        0.004,
+        0.002,
+        0.006,
+        0.003,
+        0.002
+      ],
+      "min_payload_bytes": 182,
+      "max_payload_bytes": 201,
+      "last_payload_bytes": 200
+    },
+    "devices_seen": [
+      "airquality-01",
+      "contiki-01",
+      "freertos-01"
+    ],
+    "definitions": {
+      "processing": "Milliseconds from the start of handling one MQTT payload until the normalized message is stored, before the Azure send call.",
+      "forward": "Milliseconds spent inside the sender call. In mock mode this is local only. In live mode this is how long IoTHubDeviceClient.send_message blocked. It is not Azure Portal ingestion time."
+    }
+  },
+  "azure_portal_verified": false,
+  "note": "Mock forwarding is not Azure delivery. azure_portal_verified is false unless a person confirms the message in IoT Hub tools."
+}

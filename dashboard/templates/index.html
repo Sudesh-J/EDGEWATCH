@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EDGEWATCH — IoT Operations Center</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23091422'/%3E%3Cpath d='M8 21.5 16 8l8 13.5' fill='none' stroke='%233ee0ff' stroke-width='1.8'/%3E%3Ccircle cx='16' cy='21.5' r='2.2' fill='%233ee0ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="#123048"></rect>
+          <path d="M8 21.5 16 8l8 13.5" fill="none" stroke="#3ee0ff" stroke-width="1.8"></path>
+          <circle cx="16" cy="21.5" r="2.2" fill="#3ee0ff"></circle>
+        </svg>
+        <div>
+          <p class="brand-name">EDGEWATCH</p>
+          <p class="brand-tag">Edge operations</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Dashboard sections">
+        <a class="nav-link is-active" href="#overview">Overview</a>
+        <a class="nav-link" href="#devices">Devices</a>
+        <a class="nav-link" href="#telemetry">Live Telemetry</a>
+        <a class="nav-link" href="#activity">System Activity</a>
+        <a class="nav-link" href="#cloud">Azure IoT Hub</a>
+      </nav>
+
+      <div class="side-stack">
+        <section class="side-card" id="mqtt-card" aria-labelledby="mqtt-label">
+          <p class="side-kicker" id="mqtt-label">Local MQTT</p>
+          <p class="side-status" id="mqtt-state">Checking</p>
+          <p class="side-detail" id="mqtt-detail">Waiting for the gateway heartbeat.</p>
+        </section>
+        <section class="side-card" id="cloud" tabindex="-1" aria-labelledby="azure-label">
+          <p class="side-kicker" id="azure-label">Azure IoT Hub</p>
+          <p class="side-status" id="azure-state">Checking</p>
+          <p class="side-detail" id="azure-detail">Forwarding status appears after the gateway starts.</p>
+        </section>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">EDGEWATCH</p>
+          <h1>IoT Operations Center</h1>
+          <p class="subtitle">Interoperable edge monitoring</p>
+        </div>
+        <div class="top-meta">
+          <div id="live-pill" class="live-pill is-down" role="status">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="live-text">Checking</span>
+          </div>
+          <div class="clock-block">
+            <p id="clock">—</p>
+            <p class="last-update">Last update <span id="last-update">—</span></p>
+          </div>
+        </div>
+      </header>
+
+      <p id="live-summary" class="sr-only" aria-live="polite"></p>
+      <div id="api-error" class="banner banner-error" hidden></div>
+      <div id="banners" class="banner-stack"></div>
+
+      <section id="overview" class="section" tabindex="-1">
+        <div class="section-head">
+          <h2>Overview</h2>
+          <p>Counts come from the gateway process, starting at zero on each launch.</p>
+        </div>
+        <div id="metrics" class="metrics" aria-busy="true">
+          <p class="loading-copy">Loading dashboard…</p>
+        </div>
+        <div id="insights" class="insights"></div>
+      </section>
+
+      <section id="devices" class="section" tabindex="-1">
+        <div class="section-head">
+          <h2>Devices</h2>
+          <p id="device-rule">Online means a normalized reading arrived within the activity window. This is separate from Azure.</p>
+        </div>
+        <div id="sensor-cards" class="sensor-grid">
+          <div class="empty-panel">
+            <h3>Waiting for telemetry</h3>
+            <p>Temperature and humidity cards appear after the gateway stores a normalized reading.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="telemetry" class="section" tabindex="-1">
+        <div class="section-head">
+          <h2>Live Telemetry</h2>
+          <p>Each chart uses normalized readings and that series’ own timestamps. Missing samples are gaps, not zeros.</p>
+        </div>
+        <div class="chart-grid">
+          <article class="panel chart-card">
+            <header class="chart-head">
+              <h3>Temperature</h3>
+              <span>°C</span>
+            </header>
+            <p class="chart-empty" id="empty-temperature">Waiting for telemetry</p>
+            <div class="chart-wrap" hidden>
+              <canvas id="chart-temperature" aria-label="Temperature history"></canvas>
+            </div>
+          </article>
+          <article class="panel chart-card">
+            <header class="chart-head">
+              <h3>Humidity</h3>
+              <span>%</span>
+            </header>
+            <p class="chart-empty" id="empty-humidity">Waiting for telemetry</p>
+            <div class="chart-wrap" hidden>
+              <canvas id="chart-humidity" aria-label="Humidity history"></canvas>
+            </div>
+          </article>
+        </div>
+        <div id="extra-charts" class="chart-grid extra-grid"></div>
+        <p id="chart-library-note" class="chart-note" hidden>Chart.js did not load. The table below still shows the latest readings.</p>
+      </section>
+
+      <section id="activity" class="section" tabindex="-1">
+        <div class="split">
+          <article class="panel">
+            <div class="section-head tight">
+              <h2>Device monitoring</h2>
+              <p>Rows are discovered from normalized messages. New reading fields are shown as text.</p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Device ID</th>
+                    <th scope="col">Device type</th>
+                    <th scope="col">Latest readings</th>
+                    <th scope="col">Last seen</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="device-rows">
+                  <tr>
+                    <td colspan="5" class="table-empty">Waiting for devices</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="section-head tight">
+              <h2>System activity</h2>
+              <p>Events recorded by the gateway. Nothing here is simulated in the browser.</p>
+            </div>
+            <div class="filters" role="group" aria-label="Filter activity">
+              <button type="button" class="filter is-on" data-filter="all">All</button>
+              <button type="button" class="filter" data-filter="mqtt_received">MQTT</button>
+              <button type="button" class="filter" data-filter="normalized">Normalized</button>
+              <button type="button" class="filter" data-filter="azure_success">Azure ok</button>
+              <button type="button" class="filter" data-filter="azure_failed">Azure failed</button>
+              <button type="button" class="filter" data-filter="invalid_payload">Invalid</button>
+            </div>
+            <ol id="activity-list" class="activity-list">
+              <li class="activity-empty">No recent activity</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footnote">
+        <p>Device programs are Python simulations inspired by Contiki-NG and FreeRTOS. Those operating systems are not running.</p>
+        <p>Device status is local message activity. Azure status is the forwarding result only. This page does not read telemetry back from IoT Hub.</p>
+      </footer>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

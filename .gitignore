@@ -1,0 +1,15 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log
+*.tmp
+data/live_state.json
+data/live_state.json.tmp
+data/events.jsonl
+results/*.log
+results/mqtt_data/
+.DS_Store
+Thumbs.db
